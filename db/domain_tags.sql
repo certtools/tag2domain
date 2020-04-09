@@ -29,7 +29,9 @@ CREATE TABLE public.domain_tags (
     taxonomy_id integer,
     tag_id integer,
     value_id integer,
-    ts timestamp with time zone DEFAULT now(),
+    measured_at timestamp with time zone DEFAULT now(),
+    start_ts timestamp with time zone DEFAULT now(),
+    end_ts timestamp with time zone DEFAULT now(),
     start_date integer,
     end_date integer
 );
