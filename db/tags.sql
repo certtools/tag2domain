@@ -25,13 +25,15 @@ SET default_with_oids = false;
 --
 
 CREATE TABLE public.tags (
-    id integer NOT NULL,
+    id integer NOT NULL PRIMARY KEY,
     tag_name character varying(500),
     taxonomy_id integer,
     description character varying,
     extras jsonb
 );
 
+
+CREATE INDEX idx_tags_tag_name on tags(tag_name);
 
 ALTER TABLE public.tags OWNER TO aaron;
 
@@ -96,6 +98,7 @@ COPY public.tags (id, tag_name, taxonomy_id, description, extras) FROM stdin;
 24	EP	4	All kinds of error pages	\N
 25	BLANK	4	Almost no content	\N
 23	WDP	4	Webserver default page	\N
+28	first_name	6	The domain name contains a first name	\N
 \.
 
 

@@ -33,8 +33,7 @@ CREATE TABLE public.taxonomy (
     is_stable boolean,
     for_numbers boolean,
     for_domains boolean,
-    url character varying(500),
-    child_of integer
+    url character varying(500)
 );
 
 
@@ -73,12 +72,13 @@ ALTER TABLE ONLY public.taxonomy ALTER COLUMN id SET DEFAULT nextval('public.tax
 -- Data for Name: taxonomy; Type: TABLE DATA; Schema: public; Owner: aaron
 --
 
-COPY public.taxonomy (id, name, description, is_actionable, is_automatically_classifiable, is_stable, for_numbers, for_domains, url, child_of) FROM stdin;
-1	DHS CIIP	Dept. of Homeland Security Critical Infrastructure Sectors list	\N	\N	\N	t	t	https://github.com/MISP/misp-taxonomies/blob/master/dhs-ciip-sectors/machinetag.json	\N
-2	RSIT	Reference Security Incident Taxonomy (previously "ENISA Taxonomy")	0.5	\N	t	t	t	https://github.com/MISP/misp-taxonomies/blob/master/dhs-ciip-sectors/machinetag.json	\N
-3	DIT	Domain Industry Taxonomy (DIT)	\N	\N	t	f	t	https://rrdg.centr.org/projects/standards/domain-industry-taxonomy/	\N
-4	Low content domain	RRDG low content domain taxonomy	\N	t	f	f	t	https://rrdg.centr.org/projects/current-projects/	\N
-5	RRDG Registration Metrics	RRDG Registration Metrics Taxonomy	\N	t	f	f	t	\N	\N
+COPY public.taxonomy (id, name, description, is_actionable, is_automatically_classifiable, is_stable, for_numbers, for_domains, url) FROM stdin;
+1	DHS CIIP	Dept. of Homeland Security Critical Infrastructure Sectors list	\N	\N	\N	t	t	https://github.com/MISP/misp-taxonomies/blob/master/dhs-ciip-sectors/machinetag.json
+2	RSIT	Reference Security Incident Taxonomy (previously "ENISA Taxonomy")	0.5	\N	t	t	t	https://github.com/MISP/misp-taxonomies/blob/master/dhs-ciip-sectors/machinetag.json
+3	DIT	Domain Industry Taxonomy (DIT)	\N	\N	t	f	t	https://rrdg.centr.org/projects/standards/domain-industry-taxonomy/
+4	Low content domain	RRDG low content domain taxonomy	\N	t	f	f	t	https://rrdg.centr.org/projects/current-projects/
+5	RRDG Registration Metrics	RRDG Registration Metrics Taxonomy	\N	t	f	f	t	\N
+6	Personal Name Taxonomy	This taxonomy tags domains as first name domains	1	t	f	f	t	\N
 \.
 
 
@@ -95,14 +95,6 @@ SELECT pg_catalog.setval('public.taxonomy_id_seq', 1, false);
 
 ALTER TABLE ONLY public.taxonomy
     ADD CONSTRAINT taxonomy_pkey PRIMARY KEY (id);
-
-
---
--- Name: taxonomy taxonomy_child_of_fkey; Type: FK CONSTRAINT; Schema: public; Owner: aaron
---
-
-ALTER TABLE ONLY public.taxonomy
-    ADD CONSTRAINT taxonomy_child_of_fkey FOREIGN KEY (child_of) REFERENCES public.taxonomy(id);
 
 
 --

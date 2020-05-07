@@ -27,11 +27,18 @@ SET default_with_oids = false;
 CREATE TABLE public.taxonomy_tag_val (
     id integer NOT NULL,
     value text,
+    value_float float,
+    value_bool boolean,
+    value_int integer,
     tag_id integer
 );
 
 
+CREATE UNIQUE INDEX idx_taxonomy_tag_val_id on taxonomy_tag_val (tag_id, value);
+
+
 ALTER TABLE public.taxonomy_tag_val OWNER TO aaron;
+
 
 --
 -- Name: taxonomy_tag_val_id_seq; Type: SEQUENCE; Schema: public; Owner: aaron
