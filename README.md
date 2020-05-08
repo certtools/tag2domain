@@ -1,12 +1,18 @@
 # tag2domain
 
-The tag2domain DB parts which can be integrated into the DWH. 
-Note that this repo is the **internal** nic.at version. The public version of tag2domain does not contain all the values which we might have in our DB.
+The tag2domain project is a framework for creating mappings of tags (labels, annotations) to domain names. 
+
 
 # Installation
 
-This repository assumes that the ``dwh`` DB structure already exists. The tag2domain tables integrate into the ``dwh`` database.
-Hence, in order to get the tag2domain tables installed, please execute the following SQL scripts:
+This repo contains sql scripts which create the right mapping tables. See the EER diagram below for more infos.
+However, it has some assumptions:
+
+  * you use postgresql
+  * you already have a table ``domains`` with a primary key ``domain_id``. The domains table shall contain a list of domain names
+  * you might have to adapt the mapping table ``domain_tags`` to your needs.
+
+
 
 ```bash
 psql -h $server -U $user $db < db/taxonomy.sql
@@ -24,14 +30,12 @@ Note that the domain_tags intersection table might be adapted for your purposes.
 
 ![EER Diagram](schema.png)
 
-# Adding data
 
-# Server.py
 
 # The global awesome taxonomy list project
 
 There is a [global taxonomy list](https://github.com/aaronkaplan/awesome-taxonomyzoo-list) on github, which serves as a place for anyone to propose taxonomies and document them.
-This list should be  constantly growing by community contributions (should this project kick off). The important aspect for us  is that every taxonomy is described as machine readable **machine-tag** format.
+This list should be  constantly growing by community contributions (should this project kick off). The important aspect for us  is that every taxonomy is described as machine readable [machine-tag](https://github.com/MISP/misp-taxonomies) format.
 Hence, we can include other taxonomies into our DB rather easily.
 
 
