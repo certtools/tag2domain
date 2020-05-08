@@ -32,9 +32,16 @@ CREATE TABLE public.domain_tags (
     measured_at timestamp with time zone DEFAULT now(),
     start_ts timestamp with time zone DEFAULT now(),
     end_ts timestamp with time zone DEFAULT now(),
-    start_date integer,
+    start_date integer,     
     end_date integer
 );
+
+COMMENT ON COLUMN domain_tags.measured_at IS 'The time of measurement when we can say this domain has this tag. Timestamp';
+COMMENT ON COLUMN domain_tags.domain_id IS 'A link to a domains table. Adjust to your needs.';
+COMMENT ON COLUMN domain_tags.start_ts IS 'Timestamp for an interval of validity. I.e: the tag is valid from start_ts till end_ts.';
+COMMENT ON COLUMN domain_tags.end_ts IS 'See start_ts';
+COMMENT ON COLUMN domain_tags.start_date IS 'Unix Epoch. Otherwise the same as start_ts';
+COMMENT ON COLUMN domain_tags.end_date IS 'See start_date';
 
 
 ALTER TABLE public.domain_tags OWNER TO aaron;
@@ -43,7 +50,7 @@ ALTER TABLE public.domain_tags OWNER TO aaron;
 -- Data for Name: domain_tags; Type: TABLE DATA; Schema: public; Owner: aaron
 --
 
-COPY public.domain_tags (domain_id, taxonomy_id, tag_id, value_id, ts, start_date, end_date) FROM stdin;
+COPY public.domain_tags (domain_id, taxonomy_id, tag_id, value_id, measured_at, start_ts, end_ts, start_date, end_date) FROM stdin;
 \.
 
 
@@ -52,7 +59,7 @@ COPY public.domain_tags (domain_id, taxonomy_id, tag_id, value_id, ts, start_dat
 --
 
 ALTER TABLE ONLY public.domain_tags
-    ADD CONSTRAINT domain2label_domain_id_fkey FOREIGN KEY (domain_id) REFERENCES public.atbot_sink(id);
+    ADD CONSTRAINT domain2label_domain_id_fkey FOREIGN KEY (domain_id) REFERENCES public.domains(domain_id);
 
 
 --

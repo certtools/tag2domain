@@ -9,16 +9,20 @@ This repository assumes that the ``dwh`` DB structure already exists. The tag2do
 Hence, in order to get the tag2domain tables installed, please execute the following SQL scripts:
 
 ```bash
-psql -h nics-dwh.sbg.nic.at -U $user dwh < db/taxonomy.sql
-psql -h nics-dwh.sbg.nic.at -U $user dwh < db/tags.sql
-psql -h nics-dwh.sbg.nic.at -U $user dwh < db/taxonomy_tag_val.sql.sql
-psql -h nics-dwh.sbg.nic.at -U $user dwh < db/domain_tags.sql
+psql -h $server -U $user $db < db/taxonomy.sql
+psql -h $server -U $user $db < db/tags.sql
+psql -h $server -U $user $db < db/taxonomy_tag_val.sql.sql
+psql -h $server -U $user $db < db/domain_tags.sql
 
 ```
 
+
+Note that the domain_tags intersection table might be adapted for your purposes. It is only given as an example.
+
+
 # DB structure
 
-<insert EER diagram>
+![EER Diagram](schema.png)
 
 # Adding data
 
