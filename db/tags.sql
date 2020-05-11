@@ -25,10 +25,10 @@ SET default_with_oids = false;
 --
 
 CREATE TABLE public.tags (
-    id integer NOT NULL PRIMARY KEY,
+    tag_id integer NOT NULL PRIMARY KEY,
     tag_name character varying(500),
     taxonomy_id integer,
-    description character varying,
+    tag_description character varying,
     extras jsonb
 );
 
@@ -56,21 +56,21 @@ ALTER TABLE public.taxomoy_tags_id_seq OWNER TO aaron;
 -- Name: taxomoy_tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: aaron
 --
 
-ALTER SEQUENCE public.taxomoy_tags_id_seq OWNED BY public.tags.id;
+ALTER SEQUENCE public.taxomoy_tags_id_seq OWNED BY public.tags.tag_id;
 
 
 --
 -- Name: tags id; Type: DEFAULT; Schema: public; Owner: aaron
 --
 
-ALTER TABLE ONLY public.tags ALTER COLUMN id SET DEFAULT nextval('public.taxomoy_tags_id_seq'::regclass);
+ALTER TABLE ONLY public.tags ALTER COLUMN tag_id SET DEFAULT nextval('public.taxomoy_tags_id_seq'::regclass);
 
 
 --
 -- Data for Name: tags; Type: TABLE DATA; Schema: public; Owner: aaron
 --
 
-COPY public.tags (id, tag_name, taxonomy_id, description, extras) FROM stdin;
+COPY public.tags (tag_id, tag_name, taxonomy_id, tag_description, extras) FROM stdin;
 10	Can't Classify/Other	\N	\N	\N
 11	Abusive	\N	\N	\N
 13	DNS Failure	\N	\N	\N
@@ -114,7 +114,7 @@ SELECT pg_catalog.setval('public.taxomoy_tags_id_seq', 1, false);
 --
 
 ALTER TABLE ONLY public.tags
-    ADD CONSTRAINT taxonomy_predicates_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT taxonomy_predicates_pkey PRIMARY KEY (tag_id);
 
 
 --
