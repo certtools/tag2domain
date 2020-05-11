@@ -85,19 +85,19 @@ SELECT pg_catalog.setval('public.taxonomy_tag_val_id_seq', 1, false);
 
 
 --
--- Name: taxonomy_tag_val taxonomy_pred_val_pkey; Type: CONSTRAINT; Schema: public; Owner: aaron
+-- Name: taxonomy_tag_val taxonomy_tag_val_pkey; Type: CONSTRAINT; Schema: public; Owner: aaron
 --
 
 ALTER TABLE ONLY public.taxonomy_tag_val
-    ADD CONSTRAINT taxonomy_pred_val_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT taxonomy_tag_val_pkey PRIMARY KEY (tag_id);
 
 
 --
--- Name: taxonomy_tag_val taxonomy_pred_val_predicate_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: aaron
+-- Name: taxonomy_tag_val taxonomy_tag_val_tag_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: aaron
 --
 
 ALTER TABLE ONLY public.taxonomy_tag_val
-    ADD CONSTRAINT taxonomy_pred_val_predicate_id_fkey FOREIGN KEY (tag_id) REFERENCES public.tags(id);
+    ADD CONSTRAINT taxonomy_tag_val_tag_id_fkey FOREIGN KEY (tag_id) REFERENCES public.tags(tag_id);
 
 
 --
