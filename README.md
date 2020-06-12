@@ -39,3 +39,10 @@ This list should be  constantly growing by community contributions (should this 
 Hence, we can include other taxonomies into our DB rather easily.
 
 
+Funded by
+---------
+
+This project was partially funded by the CEF framework
+
+.. figure:: static/cef_logo.png
+   :alt: Co-financed by the Connecting Europe Facility of the European Union
