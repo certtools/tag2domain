@@ -1,2 +1,5 @@
 venv/*
-
+api/venv
+api/ENV
+api/__pycache__
+api/.idea

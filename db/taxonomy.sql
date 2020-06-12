@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 11.7
--- Dumped by pg_dump version 11.7
+-- Dumped from database version 11.7 (Debian 11.7-0+deb10u1)
+-- Dumped by pg_dump version 11.7 (Debian 11.7-0+deb10u1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -69,7 +69,7 @@ ALTER TABLE ONLY public.taxonomy ALTER COLUMN id SET DEFAULT nextval('public.tax
 
 
 --
--- Data for Name: taxonomy; Type: TABLE DATA; Schema: public; Owner: aaron
+-- Data for Name: taxonomy; Type: TABLE DATA; Schema: public; 
 --
 
 COPY public.taxonomy (id, name, description, is_actionable, is_automatically_classifiable, is_stable, for_numbers, for_domains, url) FROM stdin;
@@ -83,18 +83,12 @@ COPY public.taxonomy (id, name, description, is_actionable, is_automatically_cla
 
 
 --
--- Name: taxonomy_id_seq; Type: SEQUENCE SET; Schema: public; Owner: aaron
---
-
-SELECT pg_catalog.setval('public.taxonomy_id_seq', 1, false);
-
-
---
 -- Name: taxonomy taxonomy_pkey; Type: CONSTRAINT; Schema: public; Owner: aaron
 --
 
 ALTER TABLE ONLY public.taxonomy
     ADD CONSTRAINT taxonomy_pkey PRIMARY KEY (id);
+
 
 
 --
