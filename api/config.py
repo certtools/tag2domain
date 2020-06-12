@@ -7,7 +7,7 @@ Config file
 
 config = dict()
 config.update(dict(
-    version=0.2,
+    version=0.3,
     debug=True,
     loglevel="DEBUG",                   # valid values: DEBUG, INFO, WARN, ERROR (same as default python logging)
     admin_pwd=os.getenv('ADMIN_PWD'),   # a master fallback pwd for the admin user

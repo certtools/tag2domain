@@ -32,3 +32,12 @@ class TagsOfDomainsResponse(BaseModel):
     taxonomy_id: int = None
     taxonomy_name: str = None
 
+class StatsTaxResponse(BaseModel):
+    count: int
+    taxonomy_id: int
+    taxonomy_name: str
+
+class StatsTagResponse(BaseModel):
+    count: int
+    tag_id: int
+    tag_name: str

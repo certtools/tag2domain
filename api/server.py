@@ -377,6 +377,70 @@ async def get_domains_by_taxonomy(
     return rows
 
 
+@app.get("/api/v1/stats/taxonomies",
+         response_model=List[StatsTaxResponse],
+         name="Stats of taxonomies",
+         summary="Show stats on all taxonomies",
+         tags=["Stats"]
+         )
+async def get_stats_taxonomies(
+        limit: int = config['default_limit'],
+        offset: int = config['default_offset'],
+        api_key: APIKey = Depends(validate_api_key)
+    ):
+    """ Returns stats on all taxonomies
+
+    **GET Parameters:**
+      * limit .... how many entries should we return?
+      * offset.... starting at {offset}
+
+    **Output (JSON):**
+      * taxonomy_id ... int
+      * taxonomy_name ... name of the linked taxonomy
+      * count.... how many domains are labeled by this taxonomy
+    """
+    SQL = """SELECT count(domain_id), taxonomy_id, taxonomy_name 
+             FROM v_taxonomies_domains 
+             GROUP by taxonomy_id,taxonomy_name
+             ORDER BY count DESC LIMIT %s OFFSET %s"""
+    cur = db_conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+    cur.execute(SQL, (limit, offset))
+    rows = cur.fetchall()
+    return rows
+
+
+@app.get("/api/v1/stats/tags",
+         response_model=List[StatsTagResponse],
+         name="Stats of tags",
+         summary="Show stats on all tags",
+         tags=["Stats"]
+         )
+async def get_stats_tags(
+        limit: int = config['default_limit'],
+        offset: int = config['default_offset'],
+        api_key: APIKey = Depends(validate_api_key)
+    ):
+    """ Returns stats on all tags
+
+    **GET Parameters:**
+      * limit .... how many entries should we return?
+      * offset.... starting at {offset}
+
+    **Output (JSON):**
+      * tag_id ... int
+      * tag_name ... name of the linked taxonomy
+      * count.... how many domains are labeled by this tag
+    """
+    SQL = """SELECT count(domain_id), tag_id, tag_name 
+             FROM v_taxonomies_domains 
+             GROUP by tag_id,tag_name
+             ORDER BY count DESC LIMIT %s OFFSET %s"""
+    cur = db_conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+    cur.execute(SQL, (limit, offset))
+    rows = cur.fetchall()
+    return rows
+
+
 if __name__ == "__main__":
     logging.basicConfig(level=config['loglevel'])
     conn = get_db()
