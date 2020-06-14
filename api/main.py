@@ -194,12 +194,18 @@ async def help(api_key: APIKey = Depends(validate_api_key)):
     return {'help': HELPSTR}
 
 
-@app.get("/test/ping")
+@app.get("/test/ping",
+        name="Ping test",
+        summary="Run a ping test, to check if the service is running",
+        tags=["Tests"])
 async def ping():
     return {"message": "Pong!"}
 
 
-@app.get("/test/self-test")
+@app.get("/test/self-test",
+         name="Self-test",
+         summary="Run a self-test",
+         tags=["Tests"])
 async def selftest():
     return {"message": "OK"}
 
