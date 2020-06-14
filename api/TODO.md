@@ -1,12 +1,14 @@
 # DB
 
-- [ ] automate the tagging and make sure the views (v_taxonomies_domains, ...) always return the latest view (or allow for timed view slices)
+- [ ] automate the tagging 
+- [ ] make sure the views (v_taxonomies_domains, ...) always return the latest view (or allow for timed view slices)
 - [ ] v_taxonomies_domains : name -> taxonomy_name, missing: taxonomy_id in the view
-- [ ] create view in db/* files
+- [x] create view in db/* files
 
 # General TODOs
 
 - [ ] Documentation on github
+- [ ] look at pg asyncio
 - [ ] Separate db / config for nic.at repo and github repo
 - [ ] fix API endpoint URLs everywhere, are they pretty?
 - [ ] let the python sample code be generated (see https://openapi-generator.tech/#try)
@@ -20,6 +22,11 @@
 - [ ] expose liveliness check under meta/ping-test
 
 # Specifics
+
+## Docker
+
+- [ ] self-test
+- [ ] how to communicate DB connection loss, etc?
 
 ## get_tags_by_domain
 

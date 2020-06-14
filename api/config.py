@@ -1,9 +1,14 @@
 
 import os
+from dotenv import load_dotenv, find_dotenv
+
 
 """
 Config file
 """
+
+load_dotenv(find_dotenv(), verbose=True)
+
 
 config = dict()
 config.update(dict(

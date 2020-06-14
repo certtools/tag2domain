@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+import time
+import logging
+
 from fastapi import FastAPI, HTTPException, Depends, Security
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.security.api_key import APIKeyHeader, APIKey
@@ -24,7 +27,6 @@ from misc import  send_email_api_key
 # from admin import * # XXX FIXME
 from models import *
 
-import logging
 
 
 ###############################################################################
@@ -121,6 +123,7 @@ def connect_db():
         conn = psycopg2.connect(dbname=config['DATABASE'], user=config['USERNAME'], password=config['PASSWORD'],
                                 host=config['DBHOST'], port=config['DBPORT'])
     except Exception as ex:
+        time.sleep(2)       # process would die and get respawned constantly otherwise
         raise HTTPException(status_code=500, detail="could not connect to the DB. Reason: %s" % (str(ex)))
     logging.info("connection to DB established")
     return conn
@@ -184,17 +187,21 @@ def validate_api_key(api_key_header: str = Security(api_key_header)):
 
 
 ###############################################################################
-# routing specific functions
+# API endpoint functions
 @app.get('/help')
 @app.get('/api/v1')
 async def help(api_key: APIKey = Depends(validate_api_key)):
     return {'help': HELPSTR}
 
 
+@app.get("/test/ping")
+async def ping():
+    return {"message": "Pong!"}
 
-@app.get("/test")
-async def root():
-    return {"message": "Test, this works"}
+
+@app.get("/test/self-test")
+async def selftest():
+    return {"message": "OK"}
 
 
 @app.get("/api/v1/taxonomies/all",
@@ -203,7 +210,7 @@ async def root():
          summary="Show all taxonomies",
          tags=["Supporting data"]
          )
-async def get_taxonomies(
+def get_taxonomies(
         limit: int = config['default_limit'],
         offset: int = config['default_offset'],
         api_key: APIKey = Depends(validate_api_key)
@@ -238,7 +245,7 @@ async def get_taxonomies(
          summary="Show all tags",
          tags=["Supporting data"]
          )
-async def get_tags(
+def get_tags(
         limit: int = config['default_limit'],
         offset: int = config['default_offset'],
         api_key: APIKey = Depends(validate_api_key)
@@ -275,7 +282,7 @@ async def get_tags(
          summary="Show all tags of a given domain",
          tags=["Main"]
          )
-async def get_tags_by_domain(
+def get_tags_by_domain(
         domain: str,
         limit: int = config['default_limit'],
         offset: int = config['default_offset'],
@@ -312,7 +319,7 @@ async def get_tags_by_domain(
          summary="Show all domains which are tagged by {tag}",
          tags=["Main"]
          )
-async def get_domains_by_tag(
+def get_domains_by_tag(
         tag: str,
         limit: int = config['default_limit'],
         offset: int = config['default_offset'],
@@ -347,7 +354,7 @@ async def get_domains_by_tag(
          summary="Show all domains which are classified by {taxonomy}",
          tags=["Main"]
          )
-async def get_domains_by_taxonomy(
+def get_domains_by_taxonomy(
         taxonomy: str,
         limit: int = config['default_limit'],
         offset: int = config['default_offset'],
@@ -383,7 +390,7 @@ async def get_domains_by_taxonomy(
          summary="Show stats on all taxonomies",
          tags=["Stats"]
          )
-async def get_stats_taxonomies(
+def get_stats_taxonomies(
         limit: int = config['default_limit'],
         offset: int = config['default_offset'],
         api_key: APIKey = Depends(validate_api_key)
@@ -415,7 +422,7 @@ async def get_stats_taxonomies(
          summary="Show stats on all tags",
          tags=["Stats"]
          )
-async def get_stats_tags(
+def get_stats_tags(
         limit: int = config['default_limit'],
         offset: int = config['default_offset'],
         api_key: APIKey = Depends(validate_api_key)
