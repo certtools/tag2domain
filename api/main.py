@@ -243,6 +243,7 @@ def get_taxonomies(
     cur = db_conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     cur.execute(SQL, (limit, offset))
     rows = cur.fetchall()
+    # XXX FIXME: add metadata as print(..) to stdout/stderr
     return rows
 
 

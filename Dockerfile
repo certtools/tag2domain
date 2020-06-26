@@ -13,3 +13,5 @@ EXPOSE 8000
 COPY ./api/* /app/
 
 RUN pip install -r /app/requirements.txt
+
+HEALTHCHECK --interval=5m --timeout=3s  CMD curl -f http://localhost:8000/test/self-test || exit 1
