@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 11.7
--- Dumped by pg_dump version 11.7
+-- Dumped from database version 11.7 (Debian 11.7-0+deb10u1)
+-- Dumped by pg_dump version 11.7 (Debian 11.7-0+deb10u1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -69,32 +69,19 @@ ALTER TABLE ONLY public.taxonomy ALTER COLUMN id SET DEFAULT nextval('public.tax
 
 
 --
--- Data for Name: taxonomy; Type: TABLE DATA; Schema: public; Owner: aaron
---
-
-COPY public.taxonomy (id, name, description, is_actionable, is_automatically_classifiable, is_stable, for_numbers, for_domains, url) FROM stdin;
-1	DHS CIIP	Dept. of Homeland Security Critical Infrastructure Sectors list	\N	\N	\N	t	t	https://github.com/MISP/misp-taxonomies/blob/master/dhs-ciip-sectors/machinetag.json
-2	RSIT	Reference Security Incident Taxonomy (previously "ENISA Taxonomy")	0.5	\N	t	t	t	https://github.com/MISP/misp-taxonomies/blob/master/dhs-ciip-sectors/machinetag.json
-3	DIT	Domain Industry Taxonomy (DIT)	\N	\N	t	f	t	https://rrdg.centr.org/projects/standards/domain-industry-taxonomy/
-4	Low content domain	RRDG low content domain taxonomy	\N	t	f	f	t	https://rrdg.centr.org/projects/current-projects/
-5	RRDG Registration Metrics	RRDG Registration Metrics Taxonomy	\N	t	f	f	t	\N
-6	Personal Name Taxonomy	This taxonomy tags domains as first name domains	1	t	f	f	t	\N
-\.
-
-
---
--- Name: taxonomy_id_seq; Type: SEQUENCE SET; Schema: public; Owner: aaron
---
-
-SELECT pg_catalog.setval('public.taxonomy_id_seq', 1, false);
-
-
---
 -- Name: taxonomy taxonomy_pkey; Type: CONSTRAINT; Schema: public; Owner: aaron
 --
 
 ALTER TABLE ONLY public.taxonomy
     ADD CONSTRAINT taxonomy_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: TABLE taxonomy; Type: ACL; Schema: public; Owner: aaron
+--
+
+GRANT ALL ON TABLE public.taxonomy TO dwh_su;
+GRANT SELECT ON TABLE public.taxonomy TO dwh_ro;
 
 
 --
