@@ -18,7 +18,7 @@ python-gnupg==0.4.6
 python-magic==0.4.18
 six==1.15.0
 starlette==0.13.2
-uvicorn==0.11.5
+uvicorn==0.11.7
 uvloop==0.14.0
 wcwidth==0.2.4
 websockets==8.1
