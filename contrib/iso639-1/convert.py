@@ -14,7 +14,7 @@ abk,ab,Abkhazian
 
 r"""
 Output format:
- COPY public.tags (tag_id, tag_name, taxonomy_id, tag_description, extras) FROM stdin;
+ COPY public.tags (tag_id, tag_name, tag_description, taxonomy_id, extras) FROM stdin;
  1 PPC 4   \N  \N
  2 For Sale    4   \N  \N
  3 Under Construction Default Registrar/Hosting    4   \N  \N
@@ -23,9 +23,11 @@ Output format:
 id=32
 taxonomy=7
 
+print("COPY public.tags (tag_id, tag_name, taxonomy_id, tag_description, extras) FROM stdin;")
 with sys.stdin as infile:
     reader = csv.reader(infile, delimiter=',',)
     for row in reader:
         # print(row)
         print("%d\t%s\t%s\t%s\t\\N" %(id, row[1], taxonomy, row[2]))
         id += 1
+print("\\.")
