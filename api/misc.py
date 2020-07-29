@@ -1,4 +1,4 @@
-import envelope
+from envelope import Envelope
 from pydantic import EmailStr
 
 
@@ -29,7 +29,7 @@ Kind regards,
 the automatic API buttler
 """ % (email, hostname, api_key, days_valid, hostname)
 
-    envelope.envelope()\
+    Envelope()\
         .message(body)\
         .subject(subject)\
         .to(email)\
