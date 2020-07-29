@@ -69,6 +69,14 @@ ALTER TABLE ONLY public.taxonomy ALTER COLUMN id SET DEFAULT nextval('public.tax
 
 
 --
+-- Name: taxonomy taxonomy_pkey; Type: CONSTRAINT; Schema: public; Owner: aaron
+--
+
+ALTER TABLE ONLY public.taxonomy
+    ADD CONSTRAINT taxonomy_pkey PRIMARY KEY (id);
+
+
+--
 -- Data for Name: taxonomy; Type: TABLE DATA; Schema: public; 
 --
 
@@ -84,11 +92,9 @@ COPY public.taxonomy (id, name, description, is_actionable, is_automatically_cla
 
 
 --
--- Name: taxonomy taxonomy_pkey; Type: CONSTRAINT; Schema: public; Owner: aaron
---
 
-ALTER TABLE ONLY public.taxonomy
-    ADD CONSTRAINT taxonomy_pkey PRIMARY KEY (id);
+GRANT ALL ON TABLE public.taxonomy TO dwh_su;
+GRANT SELECT ON TABLE public.taxonomy TO dwh_ro;
 
 
 
