@@ -44,4 +44,4 @@ Funded by
 
 This project was partially funded by the CEF framework
 
-![Co-financed by the Connecting Europe Facility of the European Union](https://github.com/certtools/tag2domain/blob/master/static/cef_logo.png "Co-financed by the Connecting Europe Facility of the European Union")
+![Co-financed by the Connecting Europe Facility of the European Union](/static/cef_logo.png "Co-financed by the Connecting Europe Facility of the European Union")
