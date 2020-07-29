@@ -67,6 +67,7 @@ ALTER TABLE ONLY public.tags ALTER COLUMN tag_id SET DEFAULT nextval('public.tag
 -- Data for Name: tags; Type: TABLE DATA; Schema: public; Owner: dwh_su
 --
 
+<<<<<<< HEAD
 COPY public.tags (tag_id, tag_name, tag_description, taxonomy_id, extras) FROM stdin;
 11	Abusive	\N	\N	\N
 1	PPC	\N	4	\N
@@ -100,6 +101,7 @@ COPY public.tags (tag_id, tag_name, tag_description, taxonomy_id, extras) FROM s
 \.
 
 
+
 --
 -- Name: tags_tag_id_seq; Type: SEQUENCE SET; Schema: public; Owner: dwh_su
 --
@@ -130,6 +132,8 @@ ALTER TABLE ONLY public.tags
 ALTER TABLE ONLY public.tags
     ADD CONSTRAINT taxonomy_predicates_taxonomy_id_fkey FOREIGN KEY (taxonomy_id) REFERENCES public.taxonomy(id);
 
+
+SELECT pg_catalog.setval('public.tags_tag_id_seq', 28, true);
 
 --
 -- Name: TABLE tags; Type: ACL; Schema: public; Owner: dwh_su

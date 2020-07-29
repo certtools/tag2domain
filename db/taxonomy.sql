@@ -77,11 +77,24 @@ ALTER TABLE ONLY public.taxonomy
 
 
 --
--- Name: TABLE taxonomy; Type: ACL; Schema: public; Owner: aaron
+-- Data for Name: taxonomy; Type: TABLE DATA; Schema: public; 
+--
+
+COPY public.taxonomy (id, name, description, is_actionable, is_automatically_classifiable, is_stable, for_numbers, for_domains, url) FROM stdin;
+1	DHS CIIP	Dept. of Homeland Security Critical Infrastructure Sectors list	\N	\N	\N	t	t	https://github.com/MISP/misp-taxonomies/blob/master/dhs-ciip-sectors/machinetag.json
+2	RSIT	Reference Security Incident Taxonomy (previously "ENISA Taxonomy")	0.5	\N	t	t	t	https://github.com/MISP/misp-taxonomies/blob/master/dhs-ciip-sectors/machinetag.json
+3	DIT	Domain Industry Taxonomy (DIT)	\N	\N	t	f	t	https://rrdg.centr.org/projects/standards/domain-industry-taxonomy/
+4	Low content domain	RRDG low content domain taxonomy	\N	t	f	f	t	https://rrdg.centr.org/projects/current-projects/
+5	RRDG Registration Metrics	RRDG Registration Metrics Taxonomy	\N	t	f	f	t	\N
+6	Personal Name Taxonomy	This taxonomy tags domains as first name domains	1	t	f	f	t	\N
+\.
+
+
 --
 
 GRANT ALL ON TABLE public.taxonomy TO dwh_su;
 GRANT SELECT ON TABLE public.taxonomy TO dwh_ro;
+
 
 
 --
