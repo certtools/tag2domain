@@ -67,7 +67,6 @@ ALTER TABLE ONLY public.tags ALTER COLUMN tag_id SET DEFAULT nextval('public.tag
 -- Data for Name: tags; Type: TABLE DATA; Schema: public; Owner: dwh_su
 --
 
-<<<<<<< HEAD
 COPY public.tags (tag_id, tag_name, tag_description, taxonomy_id, extras) FROM stdin;
 11	Abusive	\N	\N	\N
 1	PPC	\N	4	\N
