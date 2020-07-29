@@ -79,6 +79,7 @@ COPY public.taxonomy (id, name, description, is_actionable, is_automatically_cla
 4	Low content domain	RRDG low content domain taxonomy	\N	t	f	f	t	https://rrdg.centr.org/projects/current-projects/
 5	RRDG Registration Metrics	RRDG Registration Metrics Taxonomy	\N	t	f	f	t	\N
 6	Personal Name Taxonomy	This taxonomy tags domains as first name domains	1	t	f	f	t	\N
+7	Website Languages	This taxonomy lists in ISO-639-1 the possible languages of a website	\N	t	t	f	t	https://en.wikipedia.org/wiki/ISO_639-1
 \.
 
 
