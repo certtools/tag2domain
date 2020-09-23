@@ -12,7 +12,7 @@ pip install -r requirements
 5. Start uvicorn:
 
 ```
-uvicorn --reload server:app
+uvicorn --reload main:app
 ```
 
 6. test it: go to $baseurl/docs. You might need to acquire an API key first. See ``db/api_keys.sql``. 
