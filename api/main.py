@@ -3,14 +3,9 @@
 import time
 import logging
 
-from fastapi import FastAPI, HTTPException, Depends, Security
-from fastapi.security import HTTPBasic, HTTPBasicCredentials
-from fastapi.security.api_key import APIKeyHeader, APIKey
-
-from enum import Enum
+from fastapi import FastAPI, HTTPException
 
 from typing import List
-import datetime
 
 # Starlette
 # from starlette.requests import Request
@@ -23,10 +18,7 @@ import psycopg2
 import psycopg2.extras
 # from psycopg2 import sql
 from config import config
-from misc import  send_email_api_key
-# from admin import * # XXX FIXME
 from models import *
-
 
 
 ###############################################################################
@@ -50,15 +42,6 @@ Author: Aaron Kaplan <[kaplan@nic.at](kaplan@nic.at)>
 baseurl = config['baseurl']
 db_conn = None
 app = FastAPI(title="tag2domain API", version=version, description=description)
-security = HTTPBasic()
-
-
-###############################################################################
-# API key stuff
-API_KEYLEN = 32
-API_KEY_NAME = "x-api-key"
-api_key_header = APIKeyHeader(name=API_KEY_NAME, auto_error=False)
-
 
 
 HELPSTR = """
@@ -85,22 +68,18 @@ The default value for limit is 1000.
 """ % (baseurl,)
 
 
-
 #############
 # DB specific functions
 @app.on_event('startup')
 def get_db():
     """Opens a new database connection if there is none yet for the
-    current application context.  
+    current application context.
     :rtype: psycopg2 connection"""
     global db_conn
-    global valid_api_keys
 
     logging.info('starting up....')
     db_conn = connect_db()
     logging.debug("type(db) = %s . db = %s" % (type(db_conn), db_conn))
-
-    valid_api_keys = fetch_valid_api_keys()
 
     return db_conn
 
@@ -129,68 +108,13 @@ def connect_db():
     return conn
 
 
-def fetch_valid_api_keys():
-    global db_conn
-    cur = None
-
-    SQL = """SELECT api_key FROM api_keys WHERE (expires IS NULL or expires >= now())"""
-
-    try:
-        cur = db_conn.cursor()
-    except (psycopg2.InterfaceError, psycopg2.errors.AdminShutdown) as ex:
-        # need to re-connect to the DB
-        logging.warning("need to re-establish the connection to the DB. Error message: %s" % str(ex))
-        db_conn = connect_db()
-        logging.debug("type(db) = %s . db = %s" % (type(db_conn), db_conn))
-        cur = db_conn.cursor()
-    except Exception as ex:
-        raise HTTPException(status_code=503, detail="Connection to the DB lost. Please inform the site admins.")
-        logging.error("ooops, this should not happen! Unknown exception during fetch_valid_api_keys(): %s." % str(ex))
-    finally:
-        cur.execute(SQL)
-        rows = cur.fetchall()
-        rows = list(sum(rows, ()))  # flatten list of tuples
-        logging.debug("valid API key list: %r" % rows)
-        return rows
-
-
-def check_if_admin(credentials: HTTPBasicCredentials = Depends(security)):
-    # XXX FIXME: maybe read a http basic auth file? IS there a better way?
-    if not (credentials.username == "admin" and credentials.password == config.admin_pwd):
-        raise HTTPException(
-            status_code=HTTP_401_UNAUTHORIZED,
-            detail="Incorrect email or password",
-            headers={"WWW-Authenticate": "Basic"},
-        )
-    return credentials.username
-
-
-def is_valid_api_key(key: str):
-    valid_api_keys = fetch_valid_api_keys()
-    if key in valid_api_keys:
-        return True
-    return False
-
-
-def validate_api_key(api_key_header: str = Security(api_key_header)):
-    if not api_key_header:
-        raise HTTPException(status_code=HTTP_403_FORBIDDEN,
-                            detail="need API key. Please get in contact with the admins of this site in order get your API key. In the meantime ask 'aaron@lo-res.org' for BETA testing.")
-    if is_valid_api_key(api_key_header):
-        return api_key_header
-    else:
-        raise HTTPException(
-            status_code=HTTP_403_FORBIDDEN,
-            detail="Could not validate the provided credentials. Please get in contact with the admins of this site in order get your API key. In the meantime ask 'aaron@lo-res.org' for BETA testing."
-        )
-
 
 
 ###############################################################################
 # API endpoint functions
 @app.get('/help')
 @app.get('/api/v1')
-async def help(api_key: APIKey = Depends(validate_api_key)):
+async def help():
     return {'help': HELPSTR}
 
 
@@ -218,8 +142,7 @@ async def selftest():
          )
 def get_taxonomies(
         limit: int = config['default_limit'],
-        offset: int = config['default_offset'],
-        api_key: APIKey = Depends(validate_api_key)
+        offset: int = config['default_offset']
     ):
     """ Returns all known taxonomies.
 
@@ -254,8 +177,7 @@ def get_taxonomies(
          )
 def get_tags(
         limit: int = config['default_limit'],
-        offset: int = config['default_offset'],
-        api_key: APIKey = Depends(validate_api_key)
+        offset: int = config['default_offset']
     ):
     """ Returns all known tags.
 
@@ -292,8 +214,7 @@ def get_tags(
 def get_tags_by_domain(
         domain: str,
         limit: int = config['default_limit'],
-        offset: int = config['default_offset'],
-        api_key: APIKey = Depends(validate_api_key)
+        offset: int = config['default_offset']
     ):
     """ Returns all taxonomies and tags of a given {domain}
 
@@ -310,9 +231,9 @@ def get_tags_by_domain(
       * taxonomy_id ... int
       * taxonomy_name ... name of the linked taxonomy
     """
-    SQL = """SELECT domain_name, domain_id, tag_id, tag_name, taxonomy_id, taxonomy_name 
-             FROM v_taxonomies_domains 
-             WHERE domain_name = %s 
+    SQL = """SELECT domain_name, domain_id, tag_id, tag_name, taxonomy_id, taxonomy_name
+             FROM v_taxonomies_domains
+             WHERE domain_name = %s
              ORDER BY domain_id, tag_id asc LIMIT %s OFFSET %s"""
     cur = db_conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     cur.execute(SQL, (domain, limit, offset))
@@ -329,8 +250,7 @@ def get_tags_by_domain(
 def get_domains_by_tag(
         tag: str,
         limit: int = config['default_limit'],
-        offset: int = config['default_offset'],
-        api_key: APIKey = Depends(validate_api_key)
+        offset: int = config['default_offset']
     ):
     """ Returns all domains of a given {tag}
 
@@ -364,8 +284,7 @@ def get_domains_by_tag(
 def get_domains_by_taxonomy(
         taxonomy: str,
         limit: int = config['default_limit'],
-        offset: int = config['default_offset'],
-        api_key: APIKey = Depends(validate_api_key)
+        offset: int = config['default_offset']
     ):
     """ Returns all domains of a given {taxonomy}
 
@@ -399,8 +318,7 @@ def get_domains_by_taxonomy(
          )
 def get_stats_taxonomies(
         limit: int = config['default_limit'],
-        offset: int = config['default_offset'],
-        api_key: APIKey = Depends(validate_api_key)
+        offset: int = config['default_offset']
     ):
     """ Returns stats on all taxonomies
 
@@ -431,8 +349,7 @@ def get_stats_taxonomies(
          )
 def get_stats_tags(
         limit: int = config['default_limit'],
-        offset: int = config['default_offset'],
-        api_key: APIKey = Depends(validate_api_key)
+        offset: int = config['default_offset']
     ):
     """ Returns stats on all tags
 
@@ -458,4 +375,3 @@ def get_stats_tags(
 if __name__ == "__main__":
     logging.basicConfig(level=config['loglevel'])
     conn = get_db()
-
