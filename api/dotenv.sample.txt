@@ -1,0 +1,4 @@
+DB=dwh
+DBHOST="nics-dwh.sbg.nic.at"
+DBUSER=<user>
+DBPASS=<password - please change me>
