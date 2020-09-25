@@ -9,7 +9,8 @@ CREATE OR REPLACE VIEW v_taxonomies_domains AS (
     taxonomy.id AS taxonomy_id,
     taxonomy.name AS taxonomy_name,
     delegation2cluster.start_time,
-    delegation2cluster.end_time
+    delegation2cluster.end_time,
+	'{}' values_array
    FROM domains,
     delegations,
     delegation2cluster,
@@ -34,7 +35,8 @@ UNION
     taxonomy.id AS taxonomy_id,
     taxonomy.name AS taxonomy_name,
 	delegation_tags.start_ts as start_time,
-	delegation_tags.end_ts as end_time
+	delegation_tags.end_ts as end_time,
+	'{}' values_array
  FROM
     domains,
     delegations,
@@ -55,7 +57,8 @@ UNION
     taxonomy.id AS taxonomy_id,
     taxonomy.name AS taxonomy_name,
     domain_tags.start_ts as start_time,
-    domain_tags.end_ts as end_time
+    domain_tags.end_ts as end_time,
+	'{}' values_array
    FROM domains,
     domain_tags,
     tags,
