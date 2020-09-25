@@ -14,4 +14,4 @@ COPY ./api/* /app/
 
 RUN pip install -r /app/requirements.txt
 
-HEALTHCHECK --interval=30s --timeout=3s  CMD curl -f http://localhost:8000/test/ping || exit 1
+HEALTHCHECK --interval=30s --timeout=3s  CMD curl -f http://localhost:8001/test/ping || exit 1
