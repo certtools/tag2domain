@@ -234,7 +234,7 @@ def get_tags_by_domain(
     """
     SQL = """SELECT domain_name, domain_id, tag_id, tag_name, taxonomy_id, taxonomy_name, start_time, end_time
              FROM v_taxonomies_domains
-             WHERE domain_name = %s
+             WHERE domain_name = %s AND end_time IS NULL
              ORDER BY domain_id, tag_id asc LIMIT %s OFFSET %s"""
     cur = db_conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     cur.execute(SQL, (domain, limit, offset))
@@ -269,7 +269,7 @@ def get_domains_by_tag(
     """
     SQL = """SELECT domain_id, domain_name, tag_id, tag_name, start_time, end_time
              FROM v_taxonomies_domains 
-             WHERE tag_name = %s 
+             WHERE tag_name = %s AND end_time IS NULL
              ORDER BY domain_id, tag_id asc LIMIT %s OFFSET %s"""
     cur = db_conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     cur.execute(SQL, (tag, limit, offset))
@@ -303,7 +303,7 @@ def get_domains_by_taxonomy(
     """
     SQL = """SELECT domain_id, domain_name, tag_id, tag_name, taxonomy_id, taxonomy_name, start_time, end_time
              FROM v_taxonomies_domains 
-             WHERE taxonomy_name = %s 
+             WHERE taxonomy_name = %s  AND end_time IS NULL
              ORDER BY domain_id, tag_id asc LIMIT %s OFFSET %s"""
     cur = db_conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     cur.execute(SQL, (taxonomy, limit, offset))
@@ -332,7 +332,7 @@ def get_stats_taxonomies(
       * taxonomy_name ... name of the linked taxonomy
       * count.... how many domains are labeled by this taxonomy
     """
-    SQL = """SELECT count(domain_id), taxonomy_id, taxonomy_name 
+    SQL = """SELECT count(distinct domain_id), taxonomy_id, taxonomy_name 
              FROM v_taxonomies_domains 
              GROUP by taxonomy_id,taxonomy_name
              ORDER BY count DESC LIMIT %s OFFSET %s"""
@@ -363,7 +363,7 @@ def get_stats_tags(
       * tag_name ... name of the linked taxonomy
       * count.... how many domains are labeled by this tag
     """
-    SQL = """SELECT count(domain_id), tag_id, tag_name 
+    SQL = """SELECT count(distinct domain_id), tag_id, tag_name 
              FROM v_taxonomies_domains 
              GROUP by tag_id,tag_name
              ORDER BY count DESC LIMIT %s OFFSET %s"""
