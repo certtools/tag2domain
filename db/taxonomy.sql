@@ -31,6 +31,7 @@ CREATE TABLE public.taxonomy (
     is_actionable double precision,
     is_automatically_classifiable boolean,
     is_stable boolean,
+    allows_auto_tags boolean default false,
     for_numbers boolean,
     for_domains boolean,
     url character varying(500)

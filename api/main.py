@@ -157,11 +157,12 @@ def get_taxonomies(
       * is_actionable ... value between 0 and 1 on how actionable this is on data (can we automatically do an action based on the tag?)
       * is_automatically_classifiable... bool. Can we automatically tag a domain based on this taxonomy?
       * is_stable... bool. Does this taxonomy change a lot?
+      * allows_auto_tags... bool. If a new tag appears, may it be automatically added to the taxonomy?
       * for_numbers... bool. Is this taxonomy meant for numbers (IP addresses)?
       * for_domains... bool. Same but is it meant for domains?
       * url ... string. URL to further documentation.
     """
-    SQL = """SELECT id,name,description,is_actionable,is_automatically_classifiable,is_stable,for_numbers,for_domains,url
+    SQL = """SELECT id,name,description,is_actionable,is_automatically_classifiable,is_stable,allows_auto_tags,for_numbers,for_domains,url
              FROM taxonomy ORDER BY id asc LIMIT %s OFFSET %s"""
     cur = db_conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     cur.execute(SQL, (limit, offset))
