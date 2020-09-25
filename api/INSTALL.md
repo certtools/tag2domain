@@ -3,7 +3,7 @@
 1. make sure you have all the python packages you need installed:
 
 ```
-pip install -r requirements
+pip install -r requirements.txt
 ```
 
 2. make sure you know which DB to connect to and how to connect to it: edit the file ``ENV``.
