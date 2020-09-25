@@ -1,0 +1,23 @@
+version: '3.7'
+services:
+  tag2domain_api:
+    image: docker-registry.ops.nic.at/labs/tag2domain:latest
+    build: .
+    restart: unless-stopped
+    environment:
+      - PORT=8001
+    env_file:
+      - .env
+    ports:
+      - "8001:8001"
+    networks:
+      - proxy
+    labels:
+      - traefik.port=8001
+      - traefik.enable=true
+      - traefik.frontend.rule=Host:tag2domain.${DOMAIN}
+      - traefik.docker.network=proxy
+networks:
+  proxy:
+    external: true
+
