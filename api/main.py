@@ -231,7 +231,7 @@ def get_tags_by_domain(
       * taxonomy_id ... int
       * taxonomy_name ... name of the linked taxonomy
     """
-    SQL = """SELECT domain_name, domain_id, tag_id, tag_name, taxonomy_id, taxonomy_name
+    SQL = """SELECT domain_name, domain_id, tag_id, tag_name, taxonomy_id, taxonomy_name, start_time, end_time
              FROM v_taxonomies_domains
              WHERE domain_name = %s
              ORDER BY domain_id, tag_id asc LIMIT %s OFFSET %s"""
@@ -266,7 +266,7 @@ def get_domains_by_tag(
       * tag_name ... name of the tag
       :type tag: str
     """
-    SQL = """SELECT domain_id, domain_name, tag_id, tag_name
+    SQL = """SELECT domain_id, domain_name, tag_id, tag_name, start_time, end_time
              FROM v_taxonomies_domains 
              WHERE tag_name = %s 
              ORDER BY domain_id, tag_id asc LIMIT %s OFFSET %s"""
@@ -300,7 +300,7 @@ def get_domains_by_taxonomy(
       * taxonomy_name ... name of the taxonomy
       :type taxonomy: str
     """
-    SQL = """SELECT domain_id, domain_name, tag_id, tag_name, taxonomy_id, taxonomy_name
+    SQL = """SELECT domain_id, domain_name, tag_id, tag_name, taxonomy_id, taxonomy_name, start_time, end_time
              FROM v_taxonomies_domains 
              WHERE taxonomy_name = %s 
              ORDER BY domain_id, tag_id asc LIMIT %s OFFSET %s"""
