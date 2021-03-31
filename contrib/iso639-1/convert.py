@@ -20,14 +20,14 @@ Output format:
  3 Under Construction Default Registrar/Hosting    4   \N  \N
 """
 
-id=32
-taxonomy=7
+id = 32
+taxonomy = 7
 
 print("COPY public.tags (tag_id, tag_name, taxonomy_id, tag_description, extras) FROM stdin;")
 with sys.stdin as infile:
     reader = csv.reader(infile, delimiter=',', )
     for row in reader:
         # print(row)
-        print("%d\t%s\t%s\t%s\t\\N" %(id, row[1], taxonomy, row[2]))
+        print("%d\t%s\t%s\t%s\t\\N" % (id, row[1], taxonomy, row[2]))
         id += 1
 print("\\.")

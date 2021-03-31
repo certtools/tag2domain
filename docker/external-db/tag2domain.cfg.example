@@ -1,0 +1,35 @@
+[db]
+host=<POSTGRES_HOST>
+user=<POSTGRES_USER>
+password=<POSTGRES_PASSWORD>
+dbname=tag2domain_mock_db
+sslmode=prefer
+schema=tag2domain
+
+[logging]
+level=INFO
+
+[tag2domain]
+max_measurement_age=360
+
+[kafka]
+topic_name=test.msms_in
+#
+group_id=<KAFKA GROUP ID>
+bootstrap_servers=<KAFKA BOOTSTRAP SERVER>
+client_id=kafka-python-msm2tag2domain
+
+# Insert intersection tables below
+
+#[db.intxn_table.domain]
+#table_name=intersections
+#id=entity_id
+#taxonomy_id=taxonomy_id
+#tag_id=tag_id
+#value_id=value_id
+#measured_at=measured_at
+#producer=producer
+#start_date=start_date
+#end_date=end_date
+#start_ts=start_ts
+#end_ts=end_ts

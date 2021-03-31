@@ -1,0 +1,15 @@
+{
+    "version": "1",
+    "tag_type": "domain",
+    "tagged_id": 3,
+    "taxonomy": "flavors",
+    "producer": "test",
+    "measured_at": "{MEASURED_AT}",
+    "measurement_id": "test/12345",
+    "tags": [
+      {
+        "tag": "salty",
+        "value": "strongly"
+      }
+    ]
+}

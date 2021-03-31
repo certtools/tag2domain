@@ -1,0 +1,74 @@
+version: "2"
+
+# This compose configuration is set up to run from the repository root folder
+
+services:
+  db:
+    image: postgres:11.9
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      TAG2DOMAIN_SCHEMA: ${TAG2DOMAIN_SCHEMA}
+      TAG2DOMAIN_ENTITY_TABLE: ${TAG2DOMAIN_ENTITY_TABLE}
+      TAG2DOMAIN_ENTITY_ID_COLUMN: ${TAG2DOMAIN_ENTITY_ID_COLUMN}
+      TAG2DOMAIN_ENTITY_NAME_COLUMN: ${TAG2DOMAIN_ENTITY_NAME_COLUMN}
+    # uncomment to make DB accessible from the outside on port 5432
+    ports:
+      - "5432:5432"
+    volumes:
+      # Basic tag2domain DB configuration scripts
+      - ./db/db_master_script.sh:/docker-entrypoint-initdb.d/00-db_master_script.sh:ro
+      - ./db/00-tag2domain-db-init:/docker-entrypoint-initdb.d/00-tag2domain-db-init:ro
+      # all-in-one-demo: mock registry + glue tables to work with tag2domain + mock data
+      - ./docker/all-in-one-demo/db:/docker-entrypoint-initdb.d/50-all-in-one-demo:ro
+    networks:
+      - backend
+
+  api:
+    build:
+      context: .
+      dockerfile: tag2domain_api/Dockerfile.msm2tag
+    restart: unless-stopped
+    environment:
+      LOG_LEVEL: INFO
+      MODULE_NAME: tag2domain_api.app.main
+      PORT: ${TAG2DOMAIN_API_PORT}
+      DBHOST: db
+      DBUSER: ${POSTGRES_USER}
+      DBPASSWORD: ${POSTGRES_PASSWORD}
+      DBSSLMODE: ${POSTGRES_SSLMODE}
+      DBTAG2DOMAIN_SCHEMA: ${TAG2DOMAIN_SCHEMA}
+      DB: ${POSTGRES_DB}
+      TIMEOUT: 300
+      GRACEFUL_TIMEOUT: 300
+      ENABLE_MSM2TAG: "False"
+      MAX_WORKERS: 1
+    ports:
+      - "${TAG2DOMAIN_API_PORT}:${TAG2DOMAIN_API_PORT}"
+    depends_on:
+      - db
+    networks:
+      - frontend
+      - backend
+    volumes:
+      - ./docker/all-in-one-demo/tag2domain_intxn_tables.cfg:/app/intxn_tables.cfg
+
+  msm2tag2domain:
+    build:
+      context: .
+      dockerfile: msm2tag2domain/docker/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - db
+    networks:
+      - backend
+    volumes:
+      - ./msm2tag2domain/docker/msm2tag2domain.cfg:/usr/src/app/msm2tag2domain.cfg
+
+
+networks:
+  backend:
+
+  frontend:

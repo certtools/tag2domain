@@ -1,0 +1,48 @@
+[db]
+host=<DB HOST>
+user=<DB USER>
+port=<DB PORT>
+password=<DB PASSWORD>
+schema=<DB SCHEMA>
+dbname=<DB>
+sslmode=prefer
+application_name=py_tag2domain_test
+
+[db.intxn_table.delegation]
+table_name=delegation_tags
+id=delegation_id
+taxonomy_id=taxonomy_id
+tag_id=tag_id
+value_id=value_id
+measured_at=measured_at
+producer=producer
+start_date=start_date
+end_date=end_date
+start_ts=start_ts
+end_ts=end_ts
+
+[db.intxn_table.domain]
+table_name=domain_tags
+id=domain_id
+taxonomy_id=taxonomy_id
+tag_id=tag_id
+value_id=value_id
+measured_at=measured_at
+producer=producer
+start_date=start_date
+end_date=end_date
+start_ts=start_ts
+end_ts=end_ts
+
+[db.intxn_table.intersection]
+table_name=intersections
+id=intxn_id
+taxonomy_id=taxonomie_id
+tag_id=pickerl_id
+value_id=beschriftung_id
+measured_at=gemessen_um
+producer=erzeuger
+start_date=datum_start
+end_date=datum_ende
+start_ts=zeitstempel_start
+end_ts=zeitstempel_ende

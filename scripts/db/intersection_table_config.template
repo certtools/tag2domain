@@ -1,0 +1,12 @@
+[db.intxn_table.{TAG TYPE}]
+table_name={TAG2DOMAIN_INTXN_TABLE_NAME}
+id=entity_id
+taxonomy_id=taxonomy_id
+tag_id=tag_id
+value_id=value_id
+measured_at=measured_at
+producer=producer
+start_date=start_date
+end_date=end_date
+start_ts=start_ts
+end_ts=end_ts

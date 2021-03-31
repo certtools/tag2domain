@@ -1,0 +1,26 @@
+taxonomy:
+  name: "Example Taxonomy"
+  description: "An example taxonomy"
+  url: "https://www.example.com/"
+  is_actionable: 1
+
+  # flags
+  flags:
+    is_automatically_classifiable: true
+    is_stable: true
+    for_numbers: false
+    for_domains: true
+    allows_auto_tags: false
+    allows_auto_values: false
+
+  tags:
+    -
+      name: rgb::red
+      description: red from the rgb space
+      values: &color_values
+        - light
+        - dark
+    -
+      name: rgb::green
+      description: betterize leads
+      values: *color_values # reuse values of red
