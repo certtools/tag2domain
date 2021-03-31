@@ -1,0 +1,35 @@
+# name of the schema the tag2domain tables are generated in
+export TAG2DOMAIN_SCHEMA=tag2domain
+
+# Username used to access the database
+export POSTGRES_USER=
+
+# Name of the database the tag2domain database lives in
+export POSTGRES_DB=
+
+# optional parameters
+
+# use POSTGRES_HOST to specify a database host other than localhost
+# export POSTGRES_HOST=
+
+# use POSTGRES_PORT to specify a port other than 5432 for the database  connection
+# export POSTGRES_PORT=
+
+# use the POSTGRES_PASSWORD_FILE option to specify a file that contains a
+# password for accessing the database.
+#
+# This file should contain a line in this format:
+#
+# hostname:port:database:username:password
+#
+# Each of the first four parameters can be * to match everything. Note, that
+# access to the file must be restricted by setting chmod 0600 <FILENAME>.
+#
+# See https://www.postgresql.org/docs/current/libpq-pgpass.html for further
+# details.
+# export POSTGRES_PASSWORD_FILE=
+
+# convert POSTGRES_PASSWORD_FILE to absolute path
+if [ -n "$POSTGRES_PASSWORD_FILE" ]; then
+    POSTGRES_PASSWORD_FILE="$(readlink -f $POSTGRES_PASSWORD_FILE)"
+fi

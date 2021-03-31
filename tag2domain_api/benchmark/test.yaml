@@ -1,0 +1,25 @@
+config:
+  target: "http://dimi.labs.nic.at:8001"
+  processor: "functions.js"
+  phases:
+    - duration: 10
+      arrivalRate: 1
+      name: Warm up
+    - duration: 60
+      arrivalRate: 5
+      rampTo: 50
+      name: Ramp up load
+  payload:
+    # Load search keywords from an external CSV file and make them available
+    # to virtual user scenarios as variable "keywords":
+    path: "domains.csv"
+    fields:
+      - "domain_name"
+scenarios:
+  # We define one scenario:
+  - name: "Lookup domain"
+    flow:
+      # Get the details of the product:
+      - get:
+          url: "/api/v1/bydomain/{{ domain_name }}?limit=1000"
+          #afterResponse: "printStatus" # uncomment to see URI and status code in log

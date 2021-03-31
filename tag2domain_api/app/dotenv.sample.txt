@@ -1,0 +1,4 @@
+DB=<db name>
+DBHOST=<db host>
+DBUSER=<user>
+DBPASS=<password - please change me>

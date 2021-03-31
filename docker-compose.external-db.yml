@@ -1,0 +1,56 @@
+version: "2"
+
+# This compose configuration is set up to run from the repository root folder
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./tag2domain_api/Dockerfile.msm2tag
+    restart: unless-stopped
+    environment:
+      LOG_LEVEL: DEBUG
+      MODULE_NAME: tag2domain_api.app.main
+      PORT: ${TAG2DOMAIN_API_PORT}
+      DBHOST: db
+      DBUSER: ${POSTGRES_USER}
+      DBPASSWORD: ${POSTGRES_PASSWORD}
+      DBSSLMODE: ${POSTGRES_SSLMODE}
+      DBTAG2DOMAIN_SCHEMA: ${TAG2DOMAIN_SCHEMA}
+      DB: ${POSTGRES_DB}
+      TIMEOUT: 300
+      GRACEFUL_TIMEOUT: 300
+      # set ENABLE_MSM2TAG to "True" if you want to be able to post measurements
+      # using a REST call to the tag2domain API
+      ENABLE_MSM2TAG: "True"
+      MSM2TAG_DB_CONFIG: /app/intxn_tables.cfg
+      MAX_WORKERS: 1
+    ports:
+      - "${TAG2DOMAIN_API_PORT}:${TAG2DOMAIN_API_PORT}"
+    depends_on:
+      - db
+    networks:
+      - frontend
+      - backend
+    volumes:
+      # use tag2domain.cfg as intersection table configuration - only the
+      # intersection tables are used. The rest of the configuration is done
+      # using the environment variables above.
+      - ./docker/external-db/tag2domain.cfg:/app/intxn_tables.cfg
+
+  msm2tag2domain:
+    build:
+      context: .
+      dockerfile: msm2tag2domain/docker/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - db
+    networks:
+      - backend
+    volumes:
+      - ./docker/external-db/tag2domain.cfg:/usr/src/app/msm2tag2domain.cfg
+
+networks:
+  backend:
+
+  frontend:

@@ -1,0 +1,19 @@
+version: "2"
+
+services:
+  db:
+    image: postgres:11.9
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: tag2domain_mock_db
+      TAG2DOMAIN_SCHEMA: ${TAG2DOMAIN_SCHEMA}
+    ports:
+      - "5432:5432"
+    volumes:
+      # Basic tag2domain DB configuration scripts
+      - ./db/db_master_script.sh:/docker-entrypoint-initdb.d/00-db_master_script.sh:ro
+      - ./db/00-tag2domain-db-init:/docker-entrypoint-initdb.d/00-tag2domain-db-init:ro
+      # all-in-one-demo: mock registry + glue tables to work with tag2domain + mock data
+      - ./tests/db_mock_data:/docker-entrypoint-initdb.d/50-test-db:ro
