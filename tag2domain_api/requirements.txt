@@ -11,7 +11,7 @@ packaging==20.4
 pluggy==0.13.1
 psycopg2-binary>=2.8
 py==1.10.0
-pydantic==1.6.1
+pydantic==1.6.2
 pyparsing==2.4.7
 pytest==6.0.0
 python-gnupg==0.4.6
