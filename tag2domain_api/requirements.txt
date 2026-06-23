@@ -12,7 +12,7 @@ pluggy==0.13.1
 psycopg2-binary>=2.8
 py==1.10.0
 pydantic==1.10.13
-pyparsing==2.4.7
+pyparsing==3.3.2
 pytest==6.0.0
 python-gnupg==0.4.6
 python-magic==0.4.18
